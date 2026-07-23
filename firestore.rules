@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Each user's profile doc is keyed by their own uid.
+    match /profiles/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      // Writes go through API routes using the Admin SDK (which ignores
+      // these rules entirely) so trial/tier changes can't be forged by
+      // editing Firestore directly from the client.
+      allow write: if false;
+    }
+
+    // Scans are written by API routes (Admin SDK) after a successful
+    // analysis. Users can only read their own.
+    match /scans/{scanId} {
+      allow read: if request.auth != null && request.auth.uid == resource.data.user_id;
+      allow write: if false;
+    }
+  }
+}
