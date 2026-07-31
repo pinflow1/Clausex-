@@ -5,7 +5,6 @@ import useScanEngine from '@/hooks/useScanEngine';
 import useUser from '@/hooks/useUser';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
-import HowItWorks from '@/components/HowItWorks';
 import ResultsView from '@/components/ResultsView';
 import InputArea from '@/components/InputArea';
 import ProfilePanel from '@/components/ProfilePanel';
@@ -21,12 +20,7 @@ export default function Page() {
       <Header onProfileClick={() => setProfileOpen(true)} />
 
       <div className={`max-w-2xl mx-auto w-full px-5 flex-1 flex flex-col ${!hasStarted ? 'justify-center' : 'pt-6'}`} style={{ paddingBottom: 130 }}>
-        {!hasStarted && (
-          <>
-            <Hero />
-            <HowItWorks />
-          </>
-        )}
+        {!hasStarted && <Hero />}
         {hasStarted && (
           <ResultsView engine={engine} tier={tier} userEmail={user?.email} onUnlockClick={() => setProfileOpen(true)} />
         )}
