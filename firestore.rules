@@ -17,5 +17,10 @@ service cloud.firestore {
       allow read: if request.auth != null && request.auth.uid == resource.data.user_id;
       allow write: if false;
     }
+
+    // rate_limits/{key} deliberately has no match block below, which
+    // means Firestore denies it by default - only the Admin SDK (which
+    // ignores rules entirely) can touch it. No client should ever read
+    // or write these counters.
   }
 }
